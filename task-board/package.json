@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "convex:dev": "NODE_EXTRA_CA_CERTS=$HOME/.certs/convex-ca-bundle.pem convex dev"
+    "convex:dev": "bash ./scripts/convex-dev.sh"
   },
   "dependencies": {
     "convex": "^1.32.0",
