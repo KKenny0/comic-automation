@@ -1,0 +1,271 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/timeline.v1.schema.json",
+  "title": "timeline.v1",
+  "type": "object",
+  "required": [
+    "meta",
+    "project",
+    "global_style",
+    "assets",
+    "characters",
+    "shots",
+    "audio_plan",
+    "qa_policy"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["schema", "schema_version", "created_at", "generated_by", "language"],
+      "properties": {
+        "schema": { "const": "timeline.v1" },
+        "schema_version": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "generated_by": { "type": "string" },
+        "language": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "project": {
+      "type": "object",
+      "required": ["project_id", "title", "idea", "target_duration_sec", "aspect_ratio", "fps", "resolution"],
+      "properties": {
+        "project_id": { "type": "string" },
+        "title": { "type": "string" },
+        "idea": { "type": "string" },
+        "target_duration_sec": { "type": "number", "minimum": 1 },
+        "aspect_ratio": { "type": "string", "enum": ["16:9", "9:16", "1:1"] },
+        "fps": { "type": "number", "minimum": 12, "maximum": 60 },
+        "resolution": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "global_style": {
+      "type": "object",
+      "required": ["genre", "tone", "visual_style", "palette", "negative_prompt_global"],
+      "properties": {
+        "genre": { "type": "string" },
+        "tone": { "type": "string" },
+        "visual_style": { "type": "string" },
+        "palette": { "type": "string" },
+        "negative_prompt_global": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "assets": {
+      "type": "object",
+      "required": ["images", "videos", "audios"],
+      "properties": {
+        "images": { "$ref": "#/definitions/assetsArray" },
+        "videos": { "$ref": "#/definitions/assetsArray" },
+        "audios": { "$ref": "#/definitions/assetsArray" }
+      },
+      "additionalProperties": false
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["character_id", "name", "profile", "look", "refs", "continuity_priority"],
+        "properties": {
+          "character_id": { "type": "string" },
+          "name": { "type": "string" },
+          "profile": { "type": "string" },
+          "look": { "type": "string" },
+          "refs": {
+            "type": "object",
+            "required": ["image_asset_ids"],
+            "properties": {
+              "image_asset_ids": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            },
+            "additionalProperties": true
+          },
+          "continuity_priority": { "type": "integer", "minimum": 0, "maximum": 100 }
+        },
+        "additionalProperties": true
+      }
+    },
+    "shots": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/shot" }
+    },
+    "audio_plan": {
+      "type": "object",
+      "required": ["tts_enabled", "sfx_strategy"],
+      "properties": {
+        "tts_enabled": { "type": "boolean" },
+        "bgm_asset_id": { "type": ["string", "null"] },
+        "sfx_strategy": { "type": "string", "enum": ["minimal", "balanced", "rich"] },
+        "dialogue_tracks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["shot_id", "speaker", "text"],
+            "properties": {
+              "shot_id": { "type": "string" },
+              "speaker": { "type": "string" },
+              "text": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "qa_policy": {
+      "type": "object",
+      "required": ["score_threshold", "weights", "auto_regen"],
+      "properties": {
+        "score_threshold": { "type": "number", "minimum": 0, "maximum": 100 },
+        "weights": {
+          "type": "object",
+          "required": ["narrative", "consistency", "motion_naturalness", "style_unity", "av_sync"],
+          "properties": {
+            "narrative": { "type": "number" },
+            "consistency": { "type": "number" },
+            "motion_naturalness": { "type": "number" },
+            "style_unity": { "type": "number" },
+            "av_sync": { "type": "number" }
+          },
+          "additionalProperties": false
+        },
+        "auto_regen": {
+          "type": "object",
+          "required": ["max_rounds"],
+          "properties": {
+            "max_rounds": { "type": "integer", "minimum": 0, "maximum": 10 }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "definitions": {
+    "assetsArray": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["asset_id", "type", "path"],
+        "properties": {
+          "asset_id": { "type": "string" },
+          "type": { "type": "string" },
+          "path": { "type": "string" },
+          "usage_tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "shot": {
+      "type": "object",
+      "required": [
+        "shot_id",
+        "start_sec",
+        "end_sec",
+        "duration_sec",
+        "narrative_purpose",
+        "scene",
+        "subjects",
+        "action",
+        "camera",
+        "transition_to_next",
+        "control_mode",
+        "refs",
+        "prompt_cn",
+        "negative_prompt",
+        "seedance_plan",
+        "retry_policy"
+      ],
+      "properties": {
+        "shot_id": { "type": "string" },
+        "start_sec": { "type": "number", "minimum": 0 },
+        "end_sec": { "type": "number", "exclusiveMinimum": 0 },
+        "duration_sec": { "type": "number", "exclusiveMinimum": 0 },
+        "narrative_purpose": { "type": "string", "enum": ["铺垫", "冲突", "反转", "收束", "转场"] },
+        "scene": { "type": "string" },
+        "subjects": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "action": { "type": "string" },
+        "camera": {
+          "type": "object",
+          "required": ["shot_size", "angle", "movement", "tempo"],
+          "properties": {
+            "shot_size": { "type": "string" },
+            "angle": { "type": "string" },
+            "movement": { "type": "string" },
+            "tempo": { "type": "string" }
+          },
+          "additionalProperties": true
+        },
+        "transition_to_next": { "type": "string", "enum": ["cut", "continuous", "morph", "fade", "end"] },
+        "control_mode": { "type": "string", "enum": ["t2v", "i2v", "keyframes", "multiref"] },
+        "refs": {
+          "type": "object",
+          "required": ["image_asset_ids", "video_asset_ids", "audio_asset_ids"],
+          "properties": {
+            "image_asset_ids": { "type": "array", "items": { "type": "string" } },
+            "video_asset_ids": { "type": "array", "items": { "type": "string" } },
+            "audio_asset_ids": { "type": "array", "items": { "type": "string" } }
+          },
+          "additionalProperties": true
+        },
+        "prompt_cn": { "type": "string", "minLength": 1 },
+        "negative_prompt": { "type": "string" },
+        "seedance_plan": {
+          "type": "object",
+          "required": ["duration_sec", "aspect_ratio", "timeline_prompt_segments"],
+          "properties": {
+            "duration_sec": { "type": "number", "minimum": 4, "maximum": 15 },
+            "aspect_ratio": { "type": "string", "enum": ["16:9", "9:16", "1:1"] },
+            "resolution_hint": { "type": "string" },
+            "ref_binding": {
+              "type": "object",
+              "properties": {
+                "images": { "type": "array", "items": { "type": "string" }, "maxItems": 9 },
+                "videos": { "type": "array", "items": { "type": "string" }, "maxItems": 3 },
+                "audios": { "type": "array", "items": { "type": "string" }, "maxItems": 3 }
+              },
+              "additionalProperties": true
+            },
+            "timeline_prompt_segments": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["range", "text"],
+                "properties": {
+                  "range": { "type": "string" },
+                  "text": { "type": "string" }
+                },
+                "additionalProperties": false
+              }
+            },
+            "continuity_note": { "type": "string" }
+          },
+          "additionalProperties": true
+        },
+        "retry_policy": {
+          "type": "object",
+          "required": ["max_retries", "fallback_mode"],
+          "properties": {
+            "max_retries": { "type": "integer", "minimum": 0, "maximum": 5 },
+            "fallback_mode": { "type": "string", "enum": ["t2v", "i2v", "keyframes", "multiref"] }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
