@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "schema": "workflow.v1",
+    "schema_version": "1.0.0",
+    "created_at": "2026-02-22T03:05:00Z",
+    "created_by": "gpt-5.3-codex"
+  },
+  "run": {
+    "run_id": "run-20260222-001",
+    "project_id": "comic-20260222-001",
+    "status": "pending",
+    "attempt": 1,
+    "max_attempts": 3,
+    "started_at": null,
+    "finished_at": null
+  },
+  "stages": [
+    {
+      "name": "plan",
+      "status": "pending",
+      "attempt": 1,
+      "max_attempts": 2,
+      "started_at": null,
+      "finished_at": null,
+      "inputs": {
+        "idea": "社恐程序员误入相亲大会",
+        "references": []
+      },
+      "outputs": {
+        "timeline": "outputs/run-20260222-001/timeline.v1.json"
+      },
+      "artifacts": [
+        { "name": "timeline_json", "path": "outputs/run-20260222-001/timeline.v1.json" },
+        { "name": "plan_report_md", "path": "outputs/run-20260222-001/reports/plan.md" }
+      ],
+      "error": null
+    },
+    {
+      "name": "generate",
+      "status": "pending",
+      "attempt": 1,
+      "max_attempts": 3,
+      "started_at": null,
+      "finished_at": null,
+      "inputs": {
+        "timeline": "outputs/run-20260222-001/timeline.v1.json"
+      },
+      "outputs": {
+        "shots": "outputs/run-20260222-001/shots/"
+      },
+      "artifacts": [
+        { "name": "shot_videos", "path": "outputs/run-20260222-001/shots/" },
+        { "name": "generation_log_json", "path": "outputs/run-20260222-001/logs/generation.json" }
+      ],
+      "error": null
+    },
+    {
+      "name": "assemble",
+      "status": "pending",
+      "attempt": 1,
+      "max_attempts": 2,
+      "started_at": null,
+      "finished_at": null,
+      "inputs": {
+        "shots": "outputs/run-20260222-001/shots/",
+        "timeline": "outputs/run-20260222-001/timeline.v1.json"
+      },
+      "outputs": {
+        "final_video": "outputs/run-20260222-001/assembly/final.mp4"
+      },
+      "artifacts": [
+        { "name": "final_video", "path": "outputs/run-20260222-001/assembly/final.mp4" },
+        { "name": "assembly_log", "path": "outputs/run-20260222-001/logs/assembly.log" }
+      ],
+      "error": null
+    },
+    {
+      "name": "eval",
+      "status": "pending",
+      "attempt": 1,
+      "max_attempts": 2,
+      "started_at": null,
+      "finished_at": null,
+      "inputs": {
+        "final_video": "outputs/run-20260222-001/assembly/final.mp4",
+        "timeline": "outputs/run-20260222-001/timeline.v1.json"
+      },
+      "outputs": {
+        "eval_report_json": "outputs/run-20260222-001/reports/eval.json",
+        "eval_report_md": "outputs/run-20260222-001/reports/eval.md"
+      },
+      "artifacts": [
+        { "name": "eval_report_json", "path": "outputs/run-20260222-001/reports/eval.json" },
+        { "name": "eval_report_md", "path": "outputs/run-20260222-001/reports/eval.md" },
+        { "name": "regen_queue", "path": "outputs/run-20260222-001/reports/regen_queue.json" }
+      ],
+      "error": null
+    }
+  ],
+  "config": {
+    "plan": {
+      "model": "openai-codex/gpt-5.3-codex",
+      "temperature": 0.3
+    },
+    "generate": {
+      "engine": "seedance-2.0",
+      "parallel_cut_shots": true,
+      "max_parallel": 2
+    },
+    "assemble": {
+      "ffmpeg_preset": "medium",
+      "duration_tolerance_sec": 1.0
+    },
+    "eval": {
+      "score_threshold": 75,
+      "auto_regen_max_rounds": 2
+    }
+  }
+}
