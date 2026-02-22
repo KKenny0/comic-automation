@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "schema": "workflow.v1",
+    "schema_version": "1.0.0",
+    "created_at": "2026-02-22T04:30:00Z",
+    "created_by": "comic-automation-runner"
+  },
+  "run": {
+    "run_id": "run-local-001",
+    "project_id": "comic-local-001",
+    "status": "pending",
+    "attempt": 1,
+    "max_attempts": 3,
+    "started_at": null,
+    "finished_at": null
+  },
+  "stages": [
+    {
+      "name": "plan",
+      "status": "pending",
+      "attempt": 1,
+      "max_attempts": 2,
+      "started_at": null,
+      "finished_at": null,
+      "inputs": {
+        "idea": "A socially anxious programmer accidentally joins a dating event."
+      },
+      "outputs": {
+        "timeline": "outputs/<run_id>/timeline.v1.json"
+      },
+      "artifacts": [],
+      "error": null
+    },
+    {
+      "name": "generate",
+      "status": "pending",
+      "attempt": 1,
+      "max_attempts": 3,
+      "started_at": null,
+      "finished_at": null,
+      "inputs": {
+        "timeline": "outputs/<run_id>/timeline.v1.json"
+      },
+      "outputs": {
+        "shots": "outputs/<run_id>/shots/"
+      },
+      "artifacts": [],
+      "error": null
+    },
+    {
+      "name": "assemble",
+      "status": "pending",
+      "attempt": 1,
+      "max_attempts": 2,
+      "started_at": null,
+      "finished_at": null,
+      "inputs": {
+        "timeline": "outputs/<run_id>/timeline.v1.json",
+        "shots": "outputs/<run_id>/shots/"
+      },
+      "outputs": {
+        "final_video": "outputs/<run_id>/assembly/final.mp4"
+      },
+      "artifacts": [],
+      "error": null
+    },
+    {
+      "name": "eval",
+      "status": "pending",
+      "attempt": 1,
+      "max_attempts": 2,
+      "started_at": null,
+      "finished_at": null,
+      "inputs": {
+        "timeline": "outputs/<run_id>/timeline.v1.json",
+        "final_video": "outputs/<run_id>/assembly/final.mp4"
+      },
+      "outputs": {
+        "eval_report_json": "outputs/<run_id>/reports/eval.json",
+        "eval_report_md": "outputs/<run_id>/reports/eval.md"
+      },
+      "artifacts": [],
+      "error": null
+    }
+  ],
+  "config": {
+    "plan": {
+      "timeline_source": "specs/examples/timeline.v1.sample.json"
+    },
+    "generate": {
+      "mock": true,
+      "max_parallel": 2
+    },
+    "assemble": {
+      "mock": true,
+      "duration_tolerance_sec": 1.0
+    },
+    "eval": {
+      "mock": true,
+      "score_threshold": 75,
+      "auto_regen_max_rounds": 2
+    }
+  }
+}

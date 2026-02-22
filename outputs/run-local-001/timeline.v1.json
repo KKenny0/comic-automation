@@ -1,0 +1,397 @@
+{
+  "meta": {
+    "schema": "timeline.v1",
+    "schema_version": "1.0.0",
+    "created_at": "2026-02-22T02:40:00Z",
+    "generated_by": "gpt-5.3-codex",
+    "language": "zh-CN"
+  },
+  "project": {
+    "project_id": "comic-20260222-001",
+    "title": "社恐程序员误入相亲大会",
+    "idea": "社恐程序员为了白嫖自助餐误入相亲大会，最后反向圈粉",
+    "target_duration_sec": 45,
+    "aspect_ratio": "16:9",
+    "fps": 24,
+    "resolution": "1920x1080"
+  },
+  "global_style": {
+    "genre": "都市轻喜剧",
+    "tone": "轻快、尴尬喜感",
+    "visual_style": "国漫电影感",
+    "palette": "暖中性色 + 夜景霓虹点缀",
+    "negative_prompt_global": "无字幕、无水印、无畸形肢体、无人物闪烁"
+  },
+  "assets": {
+    "images": [
+      {
+        "asset_id": "img_char_zhang_front",
+        "type": "image",
+        "path": "assets/characters/zhang/front.png",
+        "usage_tags": [
+          "小张",
+          "正面"
+        ]
+      },
+      {
+        "asset_id": "img_char_zhang_side",
+        "type": "image",
+        "path": "assets/characters/zhang/side.png",
+        "usage_tags": [
+          "小张",
+          "侧面"
+        ]
+      },
+      {
+        "asset_id": "img_scene_hall",
+        "type": "image",
+        "path": "assets/scenes/hall.png",
+        "usage_tags": [
+          "相亲会",
+          "大厅"
+        ]
+      }
+    ],
+    "videos": [],
+    "audios": [
+      {
+        "asset_id": "aud_bgm_light",
+        "type": "audio",
+        "path": "assets/audio/bgm/light-comedy.mp3",
+        "usage_tags": [
+          "BGM",
+          "轻快"
+        ]
+      }
+    ]
+  },
+  "characters": [
+    {
+      "character_id": "char_zhang",
+      "name": "小张",
+      "profile": "社恐程序员，嘴硬心软",
+      "look": "黑色卫衣、双肩包、略显紧张的眼神",
+      "refs": {
+        "image_asset_ids": [
+          "img_char_zhang_front",
+          "img_char_zhang_side"
+        ]
+      },
+      "continuity_priority": 95
+    }
+  ],
+  "shots": [
+    {
+      "shot_id": "S01",
+      "start_sec": 0,
+      "end_sec": 8,
+      "duration_sec": 8,
+      "narrative_purpose": "铺垫",
+      "scene": "酒店门口夜景",
+      "subjects": [
+        "char_zhang"
+      ],
+      "action": "小张看到免费自助海报，犹豫后硬着头皮进门",
+      "camera": {
+        "shot_size": "中景",
+        "angle": "平视",
+        "movement": "缓推",
+        "tempo": "慢"
+      },
+      "transition_to_next": "cut",
+      "control_mode": "i2v",
+      "refs": {
+        "image_asset_ids": [
+          "img_char_zhang_front"
+        ],
+        "video_asset_ids": [],
+        "audio_asset_ids": []
+      },
+      "prompt_cn": "都市夜景，男主在酒店门口看到活动海报，紧张又心动，最终深呼吸推门进入，电影感光影，轻喜剧节奏。",
+      "negative_prompt": "人物面部漂移、文字水印、低清噪点",
+      "seedance_plan": {
+        "duration_sec": 8,
+        "aspect_ratio": "16:9",
+        "resolution_hint": "1080p",
+        "ref_binding": {
+          "images": [
+            "@图片1"
+          ],
+          "videos": [],
+          "audios": []
+        },
+        "timeline_prompt_segments": [
+          {
+            "range": "0-3s",
+            "text": "男主在门口读海报，表情纠结"
+          },
+          {
+            "range": "4-8s",
+            "text": "深呼吸后推门进入，镜头轻推"
+          }
+        ],
+        "continuity_note": "结尾停在推门动作，便于下一镜头接室内"
+      },
+      "retry_policy": {
+        "max_retries": 2,
+        "fallback_mode": "t2v"
+      }
+    },
+    {
+      "shot_id": "S02",
+      "start_sec": 8,
+      "end_sec": 16,
+      "duration_sec": 8,
+      "narrative_purpose": "冲突",
+      "scene": "相亲大会大厅",
+      "subjects": [
+        "char_zhang"
+      ],
+      "action": "小张发现周围全是相亲对象，表情从镇定到崩溃",
+      "camera": {
+        "shot_size": "中近景",
+        "angle": "平视",
+        "movement": "环绕",
+        "tempo": "中"
+      },
+      "transition_to_next": "continuous",
+      "control_mode": "multiref",
+      "refs": {
+        "image_asset_ids": [
+          "img_char_zhang_front",
+          "img_scene_hall"
+        ],
+        "video_asset_ids": [],
+        "audio_asset_ids": []
+      },
+      "prompt_cn": "大厅灯光温暖，男主端着盘子四顾，逐渐意识到这是相亲会，尴尬指数飙升。",
+      "negative_prompt": "人物换脸、背景抖动、镜头跳切",
+      "seedance_plan": {
+        "duration_sec": 8,
+        "aspect_ratio": "16:9",
+        "resolution_hint": "1080p",
+        "ref_binding": {
+          "images": [
+            "@图片1",
+            "@图片2"
+          ],
+          "videos": [],
+          "audios": []
+        },
+        "timeline_prompt_segments": [
+          {
+            "range": "0-4s",
+            "text": "男主进场后环视，气氛热闹"
+          },
+          {
+            "range": "5-8s",
+            "text": "男主意识到真相，表情僵住"
+          }
+        ],
+        "continuity_note": "结尾保持男主僵硬表情，连续接特写反应"
+      },
+      "retry_policy": {
+        "max_retries": 3,
+        "fallback_mode": "i2v"
+      }
+    },
+    {
+      "shot_id": "S03",
+      "start_sec": 16,
+      "end_sec": 24,
+      "duration_sec": 8,
+      "narrative_purpose": "冲突",
+      "scene": "相亲大会大厅",
+      "subjects": [
+        "char_zhang"
+      ],
+      "action": "一位女生主动搭话，小张语无伦次",
+      "camera": {
+        "shot_size": "特写",
+        "angle": "轻仰",
+        "movement": "微摇",
+        "tempo": "中"
+      },
+      "transition_to_next": "continuous",
+      "control_mode": "keyframes",
+      "refs": {
+        "image_asset_ids": [
+          "img_char_zhang_front"
+        ],
+        "video_asset_ids": [],
+        "audio_asset_ids": []
+      },
+      "prompt_cn": "特写男主紧张表情，听到搭话后慌乱回应，喜剧节奏，细微面部表情变化。",
+      "negative_prompt": "嘴型错位、眨眼抖动、鬼畜动作",
+      "seedance_plan": {
+        "duration_sec": 8,
+        "aspect_ratio": "16:9",
+        "resolution_hint": "1080p",
+        "ref_binding": {
+          "images": [
+            "@图片1"
+          ],
+          "videos": [],
+          "audios": []
+        },
+        "timeline_prompt_segments": [
+          {
+            "range": "0-3s",
+            "text": "男主被搭话，眼神躲闪"
+          },
+          {
+            "range": "4-8s",
+            "text": "结巴回应，表情从慌乱到认真"
+          }
+        ],
+        "continuity_note": "保持同场景同主体连续，供下一镜头连贯推进"
+      },
+      "retry_policy": {
+        "max_retries": 2,
+        "fallback_mode": "i2v"
+      }
+    },
+    {
+      "shot_id": "S04",
+      "start_sec": 24,
+      "end_sec": 34,
+      "duration_sec": 10,
+      "narrative_purpose": "反转",
+      "scene": "相亲大会舞台区",
+      "subjects": [
+        "char_zhang"
+      ],
+      "action": "小张意外用程序员段子逗笑全场，气氛逆转",
+      "camera": {
+        "shot_size": "中景",
+        "angle": "平视",
+        "movement": "推拉结合",
+        "tempo": "快"
+      },
+      "transition_to_next": "cut",
+      "control_mode": "t2v",
+      "refs": {
+        "image_asset_ids": [
+          "img_char_zhang_front"
+        ],
+        "video_asset_ids": [],
+        "audio_asset_ids": []
+      },
+      "prompt_cn": "喜剧反转，男主在台上讲冷幽默程序员段子，全场先安静后爆笑，镜头快速推拉，节奏轻快。",
+      "negative_prompt": "观众面部失真、灯光闪烁异常",
+      "seedance_plan": {
+        "duration_sec": 10,
+        "aspect_ratio": "16:9",
+        "resolution_hint": "1080p",
+        "ref_binding": {
+          "images": [
+            "@图片1"
+          ],
+          "videos": [],
+          "audios": []
+        },
+        "timeline_prompt_segments": [
+          {
+            "range": "0-4s",
+            "text": "男主硬着头皮开口，空气凝固"
+          },
+          {
+            "range": "5-10s",
+            "text": "全场爆笑，镜头推拉增强反转"
+          }
+        ],
+        "continuity_note": "结束于观众笑声中，便于最终收束"
+      },
+      "retry_policy": {
+        "max_retries": 2,
+        "fallback_mode": "i2v"
+      }
+    },
+    {
+      "shot_id": "S05",
+      "start_sec": 34,
+      "end_sec": 45,
+      "duration_sec": 11,
+      "narrative_purpose": "收束",
+      "scene": "酒店门口夜景",
+      "subjects": [
+        "char_zhang"
+      ],
+      "action": "小张走出会场，收到新好友消息，露出释然微笑",
+      "camera": {
+        "shot_size": "中远景",
+        "angle": "平视",
+        "movement": "缓拉远",
+        "tempo": "慢"
+      },
+      "transition_to_next": "end",
+      "control_mode": "i2v",
+      "refs": {
+        "image_asset_ids": [
+          "img_char_zhang_side"
+        ],
+        "video_asset_ids": [],
+        "audio_asset_ids": []
+      },
+      "prompt_cn": "夜景收束，男主走出会场看手机收到消息，表情放松，缓慢拉远结束。",
+      "negative_prompt": "突兀镜头跳变、文字水印",
+      "seedance_plan": {
+        "duration_sec": 11,
+        "aspect_ratio": "16:9",
+        "resolution_hint": "1080p",
+        "ref_binding": {
+          "images": [
+            "@图片1"
+          ],
+          "videos": [],
+          "audios": []
+        },
+        "timeline_prompt_segments": [
+          {
+            "range": "0-5s",
+            "text": "男主走出门口，步伐放松"
+          },
+          {
+            "range": "6-11s",
+            "text": "看手机微笑，镜头拉远收尾"
+          }
+        ],
+        "continuity_note": "最终结束镜头"
+      },
+      "retry_policy": {
+        "max_retries": 2,
+        "fallback_mode": "t2v"
+      }
+    }
+  ],
+  "audio_plan": {
+    "tts_enabled": true,
+    "bgm_asset_id": "aud_bgm_light",
+    "sfx_strategy": "balanced",
+    "dialogue_tracks": [
+      {
+        "shot_id": "S03",
+        "speaker": "小张",
+        "text": "我、我其实是来...学习社交的。"
+      },
+      {
+        "shot_id": "S04",
+        "speaker": "小张",
+        "text": "我的爱情算法，复杂度是 O(心动)。"
+      }
+    ]
+  },
+  "qa_policy": {
+    "score_threshold": 75,
+    "weights": {
+      "narrative": 25,
+      "consistency": 25,
+      "motion_naturalness": 20,
+      "style_unity": 15,
+      "av_sync": 15
+    },
+    "auto_regen": {
+      "max_rounds": 2
+    }
+  }
+}

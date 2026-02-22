@@ -1,0 +1,45 @@
+{
+  "run_id": "run-local-001",
+  "shots": [
+    {
+      "shot_id": "S01",
+      "status": "completed",
+      "control_mode": "i2v",
+      "duration_sec": 8,
+      "attempt": 1,
+      "generated_at": "2026-02-22T14:50:53+00:00"
+    },
+    {
+      "shot_id": "S02",
+      "status": "completed",
+      "control_mode": "multiref",
+      "duration_sec": 8,
+      "attempt": 1,
+      "generated_at": "2026-02-22T14:50:53+00:00"
+    },
+    {
+      "shot_id": "S03",
+      "status": "completed",
+      "control_mode": "keyframes",
+      "duration_sec": 8,
+      "attempt": 1,
+      "generated_at": "2026-02-22T14:50:53+00:00"
+    },
+    {
+      "shot_id": "S04",
+      "status": "completed",
+      "control_mode": "t2v",
+      "duration_sec": 10,
+      "attempt": 1,
+      "generated_at": "2026-02-22T14:50:53+00:00"
+    },
+    {
+      "shot_id": "S05",
+      "status": "completed",
+      "control_mode": "i2v",
+      "duration_sec": 11,
+      "attempt": 1,
+      "generated_at": "2026-02-22T14:50:53+00:00"
+    }
+  ]
+}
