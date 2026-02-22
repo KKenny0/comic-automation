@@ -1,28 +1,30 @@
-# Comic Automation (漫剧自动化)
+# Comic Automation
 
-本项目用于落地“idea -> 成片”的漫剧自动化流程，基于：
+End-to-end automation pipeline for turning a story idea into a finished comic-style video.
 
-- **GPT-5.3-codex**：流程编排、剧本/分镜/时间线规划、控制策略决策
-- **Seedance 2.0**：视频片段生成执行引擎
-- **OpenClaw**：工作流编排、任务执行、自动化集成
+## Core Components
 
-## 当前文档
+- **GPT-5.3-codex**: Orchestrator for scriptwriting, storyboarding, timeline planning, and control strategy decisions
+- **Seedance 2.0**: Video segment generation engine
+- **OpenClaw**: Workflow orchestration, task execution, and automation integration
 
-- `docs/DD-001-product-design-v0.1.md`：首版设计文档（项目主脉络）
+## Documentation
 
-## 目录结构
+- `docs/DD-001-product-design-v0.1.md`: Initial design document (project backbone)
+- `docs/DD-002-timeline-v1-spec-and-sample.md`: Timeline v1 specification and sample
 
-- `docs/`：设计文档（Design Docs）
-- `specs/`：数据协议、schema、接口规范
-- `prompts/`：提示词模板与策略
-- `workflows/`：OpenClaw 工作流定义
-- `scripts/`：执行脚本（后续补充）
-- `assets/`：角色/场景参考素材（本地）
-- `outputs/`：生成结果与中间产物
-- `status/`：里程碑、任务状态、变更记录
+## Directory Structure
 
-## 下一步
+- `docs/` - Design documents
+- `specs/` - Data protocols, schemas, and interface specifications
+- `prompts/` - Prompt templates and strategies
+- `workflows/` - OpenClaw workflow definitions
+- `scripts/` - Execution scripts
+- `assets/` - Character and scene reference materials
+- `outputs/` - Generated results and intermediate artifacts
+- `status/` - Milestones, task status, and change logs
 
-1. 输出 DD-002：`timeline.v1.json` 字段规范与样例
-2. 形成 MVP 工作流（plan -> generate -> assemble -> eval）
-3. 明确与 Seedance 的执行接口与约束校验
+## Specifications
+
+- `specs/timeline.v1.schema.json`: JSON Schema for timeline v1
+- `specs/examples/timeline.v1.sample.json`: Sample timeline for "Socially Anxious Programmer at a Dating Event" (45s, 5 shots)
