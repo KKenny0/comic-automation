@@ -12,6 +12,7 @@ End-to-end automation pipeline for turning a story idea into a finished comic-st
 
 - `docs/DD-001-product-design-v0.1.md`: Initial design document (project backbone)
 - `docs/DD-002-timeline-v1-spec-and-sample.md`: Timeline v1 specification and sample
+- `docs/DD-003-workflow-v1-execution-contract.md`: Workflow v1 execution contract
 
 ## Directory Structure
 

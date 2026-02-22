@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/workflow.v1.schema.json",
+  "title": "workflow.v1",
+  "type": "object",
+  "required": ["meta", "run", "stages", "config"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["schema", "schema_version", "created_at", "created_by"],
+      "properties": {
+        "schema": { "const": "workflow.v1" },
+        "schema_version": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "created_by": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "run": {
+      "type": "object",
+      "required": ["run_id", "project_id", "status", "attempt", "max_attempts"],
+      "properties": {
+        "run_id": { "type": "string" },
+        "project_id": { "type": "string" },
+        "status": { "$ref": "#/definitions/status" },
+        "attempt": { "type": "integer", "minimum": 1 },
+        "max_attempts": { "type": "integer", "minimum": 1 },
+        "started_at": { "type": ["string", "null"], "format": "date-time" },
+        "finished_at": { "type": ["string", "null"], "format": "date-time" }
+      },
+      "additionalProperties": true
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "$ref": "#/definitions/stage" }
+    },
+    "config": {
+      "type": "object",
+      "required": ["plan", "generate", "assemble", "eval"],
+      "properties": {
+        "plan": { "type": "object" },
+        "generate": { "type": "object" },
+        "assemble": { "type": "object" },
+        "eval": { "type": "object" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "definitions": {
+    "status": {
+      "type": "string",
+      "enum": ["pending", "running", "blocked", "failed", "completed"]
+    },
+    "stage": {
+      "type": "object",
+      "required": [
+        "name",
+        "status",
+        "attempt",
+        "max_attempts",
+        "inputs",
+        "outputs",
+        "artifacts"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "enum": ["plan", "generate", "assemble", "eval"]
+        },
+        "status": { "$ref": "#/definitions/status" },
+        "attempt": { "type": "integer", "minimum": 1 },
+        "max_attempts": { "type": "integer", "minimum": 1 },
+        "started_at": { "type": ["string", "null"], "format": "date-time" },
+        "finished_at": { "type": ["string", "null"], "format": "date-time" },
+        "inputs": { "type": "object", "additionalProperties": true },
+        "outputs": { "type": "object", "additionalProperties": true },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "path"],
+            "properties": {
+              "name": { "type": "string" },
+              "path": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "error": {
+          "type": ["object", "null"],
+          "properties": {
+            "code": { "type": "string" },
+            "message": { "type": "string" },
+            "retryable": { "type": "boolean" }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
