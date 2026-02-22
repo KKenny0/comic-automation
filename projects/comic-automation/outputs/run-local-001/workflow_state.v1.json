@@ -1,0 +1,144 @@
+{
+  "meta": {
+    "schema": "workflow.v1",
+    "schema_version": "1.0.0",
+    "created_at": "2026-02-22T04:30:00Z",
+    "created_by": "comic-automation-runner"
+  },
+  "run": {
+    "run_id": "run-local-001",
+    "project_id": "comic-local-001",
+    "status": "completed",
+    "attempt": 1,
+    "max_attempts": 3,
+    "started_at": "2026-02-22T14:50:53+00:00",
+    "finished_at": "2026-02-22T14:50:53+00:00"
+  },
+  "stages": [
+    {
+      "name": "plan",
+      "status": "completed",
+      "attempt": 1,
+      "max_attempts": 2,
+      "started_at": "2026-02-22T14:50:53+00:00",
+      "finished_at": "2026-02-22T14:50:53+00:00",
+      "inputs": {
+        "idea": "A socially anxious programmer accidentally joins a dating event."
+      },
+      "outputs": {
+        "timeline": "outputs/run-local-001/timeline.v1.json"
+      },
+      "artifacts": [
+        {
+          "name": "timeline_json",
+          "path": "outputs/run-local-001/timeline.v1.json"
+        },
+        {
+          "name": "plan_report_md",
+          "path": "outputs/run-local-001/reports/plan.md"
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "generate",
+      "status": "completed",
+      "attempt": 1,
+      "max_attempts": 3,
+      "started_at": "2026-02-22T14:50:53+00:00",
+      "finished_at": "2026-02-22T14:50:53+00:00",
+      "inputs": {
+        "timeline": "outputs/<run_id>/timeline.v1.json"
+      },
+      "outputs": {
+        "shots": "outputs/run-local-001/shots"
+      },
+      "artifacts": [
+        {
+          "name": "shot_videos",
+          "path": "outputs/run-local-001/shots"
+        },
+        {
+          "name": "generation_log_json",
+          "path": "outputs/run-local-001/logs/generation.json"
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "assemble",
+      "status": "completed",
+      "attempt": 1,
+      "max_attempts": 2,
+      "started_at": "2026-02-22T14:50:53+00:00",
+      "finished_at": "2026-02-22T14:50:53+00:00",
+      "inputs": {
+        "timeline": "outputs/<run_id>/timeline.v1.json",
+        "shots": "outputs/<run_id>/shots/"
+      },
+      "outputs": {
+        "final_video": "outputs/run-local-001/assembly/final.mp4"
+      },
+      "artifacts": [
+        {
+          "name": "final_video",
+          "path": "outputs/run-local-001/assembly/final.mp4"
+        },
+        {
+          "name": "assembly_log",
+          "path": "outputs/run-local-001/logs/assembly.log"
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "eval",
+      "status": "completed",
+      "attempt": 1,
+      "max_attempts": 2,
+      "started_at": "2026-02-22T14:50:53+00:00",
+      "finished_at": "2026-02-22T14:50:53+00:00",
+      "inputs": {
+        "timeline": "outputs/<run_id>/timeline.v1.json",
+        "final_video": "outputs/<run_id>/assembly/final.mp4"
+      },
+      "outputs": {
+        "eval_report_json": "outputs/run-local-001/reports/eval.json",
+        "eval_report_md": "outputs/run-local-001/reports/eval.md"
+      },
+      "artifacts": [
+        {
+          "name": "eval_report_json",
+          "path": "outputs/run-local-001/reports/eval.json"
+        },
+        {
+          "name": "eval_report_md",
+          "path": "outputs/run-local-001/reports/eval.md"
+        },
+        {
+          "name": "regen_queue",
+          "path": "outputs/run-local-001/reports/regen_queue.json"
+        }
+      ],
+      "error": null
+    }
+  ],
+  "config": {
+    "plan": {
+      "timeline_source": "specs/examples/timeline.v1.sample.json"
+    },
+    "generate": {
+      "mock": true,
+      "max_parallel": 2
+    },
+    "assemble": {
+      "mock": true,
+      "duration_tolerance_sec": 1.0
+    },
+    "eval": {
+      "mock": true,
+      "score_threshold": 75,
+      "auto_regen_max_rounds": 2
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "run_id": "run-local-001",
+  "threshold": 75.0,
+  "total_score": 79.0,
+  "scores": {
+    "narrative": 82,
+    "consistency": 79,
+    "motion_naturalness": 76,
+    "style_unity": 80,
+    "av_sync": 78
+  },
+  "regen_queue": [],
+  "evaluated_at": "2026-02-22T14:50:53+00:00"
+}
