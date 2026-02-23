@@ -1,0 +1,4 @@
+
+> task-board@0.1.0 convex:dev
+> bash ./scripts/convex-dev.sh
+
