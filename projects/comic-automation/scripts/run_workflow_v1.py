@@ -6,6 +6,141 @@ from pathlib import Path
 from typing import Dict, Any, List
 
 
+SEEDANCE_MODEL_CAPABILITIES = {
+    "doubao-seedance-1-5-pro-251215": {
+        "label": "Seedance 1.5 Pro",
+        "t2v": True,
+        "i2v_first": True,
+        "i2v_first_last": True,
+        "audio": True,
+        "draft": True,
+        "reference_images_max": None,
+    },
+    "doubao-seedance-1-0-pro-250428": {
+        "label": "Seedance 1.0 Pro",
+        "t2v": True,
+        "i2v_first": True,
+        "i2v_first_last": True,
+        "audio": False,
+        "draft": False,
+        "reference_images_max": None,
+    },
+    "doubao-seedance-1-0-pro-fast-250528": {
+        "label": "Seedance 1.0 Pro Fast",
+        "t2v": True,
+        "i2v_first": True,
+        "i2v_first_last": False,
+        "audio": False,
+        "draft": False,
+        "reference_images_max": None,
+    },
+    "doubao-seedance-1-0-lite-t2v-250219": {
+        "label": "Seedance 1.0 Lite T2V",
+        "t2v": True,
+        "i2v_first": False,
+        "i2v_first_last": False,
+        "audio": False,
+        "draft": False,
+        "reference_images_max": None,
+    },
+    "doubao-seedance-1-0-lite-i2v-250219": {
+        "label": "Seedance 1.0 Lite I2V",
+        "t2v": False,
+        "i2v_first": True,
+        "i2v_first_last": True,
+        "audio": False,
+        "draft": False,
+        "reference_images_max": 4,
+    },
+}
+
+
+def mode_supported(control_mode: str, caps: Dict[str, Any], image_ref_count: int = 0) -> bool:
+    if control_mode == "t2v":
+        return bool(caps.get("t2v"))
+    if control_mode == "i2v":
+        return bool(caps.get("i2v_first"))
+    if control_mode == "keyframes":
+        return bool(caps.get("i2v_first_last"))
+    if control_mode == "multiref":
+        # 按当前能力表，只有支持 reference images 的模型才视为原生 multiref
+        max_refs = caps.get("reference_images_max")
+        if not caps.get("i2v_first") or max_refs is None:
+            return False
+        if image_ref_count > max_refs:
+            return False
+        return True
+    return False
+
+
+def pick_supported_mode(caps: Dict[str, Any]) -> str:
+    for mode in ["i2v", "keyframes", "t2v", "multiref"]:
+        if mode_supported(mode, caps):
+            return mode
+    raise ValueError("no supported control mode for selected seedance model")
+
+
+def normalize_shot_for_model(
+    shot: Dict[str, Any],
+    default_model_id: str,
+    default_draft_mode: bool,
+    default_fallback_mode: str,
+) -> Dict[str, Any]:
+    sp = shot.setdefault("seedance_plan", {})
+    warnings: List[str] = []
+
+    model_id = sp.get("model_id", default_model_id)
+    caps = SEEDANCE_MODEL_CAPABILITIES.get(model_id)
+    if caps is None:
+        warnings.append(f"unknown model_id={model_id}, fallback to {default_model_id}")
+        model_id = default_model_id
+        caps = SEEDANCE_MODEL_CAPABILITIES[model_id]
+    sp["model_id"] = model_id
+
+    requested_mode = shot.get("control_mode", "t2v")
+    image_ref_count = len(shot.get("refs", {}).get("image_asset_ids", []))
+
+    fallback_mode = shot.get("retry_policy", {}).get("fallback_mode", default_fallback_mode)
+    if not mode_supported(fallback_mode, caps, image_ref_count=image_ref_count):
+        fallback_mode = pick_supported_mode(caps)
+        warnings.append(f"retry fallback_mode auto-adjusted to {fallback_mode}")
+        shot.setdefault("retry_policy", {})["fallback_mode"] = fallback_mode
+
+    effective_mode = requested_mode
+    if not mode_supported(requested_mode, caps, image_ref_count=image_ref_count):
+        effective_mode = fallback_mode
+        warnings.append(
+            f"control_mode {requested_mode} not supported by {model_id}, switched to {effective_mode}"
+        )
+
+    draft_mode = bool(sp.get("draft_mode", default_draft_mode))
+    if draft_mode and not caps.get("draft"):
+        draft_mode = False
+        warnings.append(f"draft_mode disabled for model {model_id}")
+    sp["draft_mode"] = draft_mode
+
+    audio_ids = shot.get("refs", {}).get("audio_asset_ids", [])
+    if audio_ids and not caps.get("audio"):
+        shot["refs"]["audio_asset_ids"] = []
+        warnings.append(f"audio refs removed: model {model_id} has no audio support")
+
+    max_refs = caps.get("reference_images_max")
+    if max_refs is not None and image_ref_count > max_refs:
+        shot["refs"]["image_asset_ids"] = shot["refs"]["image_asset_ids"][:max_refs]
+        warnings.append(
+            f"image refs truncated to {max_refs}: model {model_id} reference limit"
+        )
+
+    return {
+        "shot": shot,
+        "requested_mode": requested_mode,
+        "effective_mode": effective_mode,
+        "model_id": model_id,
+        "draft_mode": draft_mode,
+        "warnings": warnings,
+    }
+
+
 def now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 
@@ -104,15 +239,30 @@ def run_generate(project_root: Path, output_base: Path, workflow: Dict[str, Any]
         shot_paths: List[Path] = []
         logs = []
         generate_cfg = workflow.get("config", {}).get("generate", {})
-        model_id = generate_cfg.get("model_id", "doubao-seedance-1-5-pro-251215")
+        default_model_id = generate_cfg.get("model_id", "doubao-seedance-1-5-pro-251215")
         engine = generate_cfg.get("engine", "seedance-api")
-        draft_mode = bool(generate_cfg.get("draft_mode", True))
+        default_draft_mode = bool(generate_cfg.get("draft_mode", True))
+        default_fallback_mode = generate_cfg.get("fallback_mode", "i2v")
 
         for shot in timeline["shots"]:
             shot_id = shot["shot_id"]
+            normalized = normalize_shot_for_model(
+                shot=shot,
+                default_model_id=default_model_id,
+                default_draft_mode=default_draft_mode,
+                default_fallback_mode=default_fallback_mode,
+            )
+
+            effective_mode = normalized["effective_mode"]
             shot_out = output_base / "shots" / f"{shot_id}.mp4"
             shot_out.write_text(
-                f"MOCK_VIDEO\nshot={shot_id}\nmode={shot['control_mode']}\nduration={shot['duration_sec']}\n",
+                "MOCK_VIDEO\n"
+                f"shot={shot_id}\n"
+                f"mode={effective_mode}\n"
+                f"requested_mode={normalized['requested_mode']}\n"
+                f"model_id={normalized['model_id']}\n"
+                f"draft_mode={normalized['draft_mode']}\n"
+                f"duration={shot['duration_sec']}\n",
                 encoding="utf-8",
             )
             shot_paths.append(shot_out)
@@ -121,11 +271,13 @@ def run_generate(project_root: Path, output_base: Path, workflow: Dict[str, Any]
                     "shot_id": shot_id,
                     "status": "completed",
                     "engine": engine,
-                    "model_id": shot.get("seedance_plan", {}).get("model_id", model_id),
-                    "draft_mode": shot.get("seedance_plan", {}).get("draft_mode", draft_mode),
-                    "control_mode": shot["control_mode"],
+                    "model_id": normalized["model_id"],
+                    "draft_mode": normalized["draft_mode"],
+                    "requested_control_mode": normalized["requested_mode"],
+                    "effective_control_mode": effective_mode,
                     "duration_sec": shot["duration_sec"],
                     "attempt": 1,
+                    "warnings": normalized["warnings"],
                     "generated_at": now_iso(),
                 }
             )

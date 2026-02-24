@@ -31,3 +31,4 @@ End-to-end automation pipeline for turning a story idea into a finished comic-st
 
 - `specs/timeline.v1.schema.json`: JSON Schema for timeline v1
 - `specs/examples/timeline.v1.sample.json`: Sample timeline for "Socially Anxious Programmer at a Dating Event" (45s, 5 shots)
+- `specs/seedance-api-mapping.v1.md`: Seedance model capabilities + runtime fallback policy

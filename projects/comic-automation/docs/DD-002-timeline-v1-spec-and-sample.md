@@ -139,7 +139,7 @@
 - `control_mode = t2v`
 
 4) 若 `角色一致性要求高`：
-- 在任意模式叠加 multi-ref 引用（通过 `refs.image_asset_ids`）
+- 优先使用 `i2v/keyframes` + 固定角色参考图；`multiref` 仅在模型支持 Reference Images 时启用（详见 `specs/seedance-api-mapping.v1.md`）
 
 ---
 

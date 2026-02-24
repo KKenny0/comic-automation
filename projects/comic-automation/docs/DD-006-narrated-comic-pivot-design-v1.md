@@ -168,6 +168,12 @@
 - `doubao-seedance-1-0-lite-t2v-250219`：仅 T2V
 - `doubao-seedance-1-0-lite-i2v-250219`：I2V（含参考图 1-4）
 
+### 8.4 运行期兼容策略（已实现）
+- 不支持的 `control_mode` 自动降级为 fallback（默认 `i2v`）
+- 不支持 Draft 的模型自动关闭 `draft_mode`
+- 不支持 Audio 的模型自动移除 shot 级 audio refs
+- `multiref` 在默认 1.5 Pro 上按非原生能力处理，自动回退
+
 ---
 
 ## 9) 实施里程碑

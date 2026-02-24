@@ -106,6 +106,7 @@
       "engine": "seedance-api",
       "model_id": "doubao-seedance-1-5-pro-251215",
       "draft_mode": true,
+      "fallback_mode": "i2v",
       "parallel_cut_shots": true,
       "max_parallel": 2
     },
