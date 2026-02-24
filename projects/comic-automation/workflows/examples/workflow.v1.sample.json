@@ -103,7 +103,9 @@
       "temperature": 0.3
     },
     "generate": {
-      "engine": "seedance-2.0",
+      "engine": "seedance-api",
+      "model_id": "doubao-seedance-1-5-pro-251215",
+      "draft_mode": true,
       "parallel_cut_shots": true,
       "max_parallel": 2
     },

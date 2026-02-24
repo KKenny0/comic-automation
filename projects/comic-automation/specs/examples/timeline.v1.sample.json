@@ -60,6 +60,8 @@
       "prompt_cn": "都市夜景，男主在酒店门口看到活动海报，紧张又心动，最终深呼吸推门进入，电影感光影，轻喜剧节奏。",
       "negative_prompt": "人物面部漂移、文字水印、低清噪点",
       "seedance_plan": {
+        "model_id": "doubao-seedance-1-5-pro-251215",
+        "draft_mode": true,
         "duration_sec": 8,
         "aspect_ratio": "16:9",
         "resolution_hint": "1080p",
@@ -88,6 +90,8 @@
       "prompt_cn": "大厅灯光温暖，男主端着盘子四顾，逐渐意识到这是相亲会，尴尬指数飙升。",
       "negative_prompt": "人物换脸、背景抖动、镜头跳切",
       "seedance_plan": {
+        "model_id": "doubao-seedance-1-5-pro-251215",
+        "draft_mode": true,
         "duration_sec": 8,
         "aspect_ratio": "16:9",
         "resolution_hint": "1080p",
@@ -116,6 +120,8 @@
       "prompt_cn": "特写男主紧张表情，听到搭话后慌乱回应，喜剧节奏，细微面部表情变化。",
       "negative_prompt": "嘴型错位、眨眼抖动、鬼畜动作",
       "seedance_plan": {
+        "model_id": "doubao-seedance-1-5-pro-251215",
+        "draft_mode": true,
         "duration_sec": 8,
         "aspect_ratio": "16:9",
         "resolution_hint": "1080p",
@@ -144,6 +150,8 @@
       "prompt_cn": "喜剧反转，男主在台上讲冷幽默程序员段子，全场先安静后爆笑，镜头快速推拉，节奏轻快。",
       "negative_prompt": "观众面部失真、灯光闪烁异常",
       "seedance_plan": {
+        "model_id": "doubao-seedance-1-5-pro-251215",
+        "draft_mode": true,
         "duration_sec": 10,
         "aspect_ratio": "16:9",
         "resolution_hint": "1080p",
@@ -172,6 +180,8 @@
       "prompt_cn": "夜景收束，男主走出会场看手机收到消息，表情放松，缓慢拉远结束。",
       "negative_prompt": "突兀镜头跳变、文字水印",
       "seedance_plan": {
+        "model_id": "doubao-seedance-1-5-pro-251215",
+        "draft_mode": true,
         "duration_sec": 11,
         "aspect_ratio": "16:9",
         "resolution_hint": "1080p",

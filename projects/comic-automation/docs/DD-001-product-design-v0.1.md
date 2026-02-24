@@ -6,7 +6,7 @@
 
 核心定位：
 
-- **Seedance 2.0**：视频生成执行引擎
+- **Seedance 1.5 Pro（`doubao-seedance-1-5-pro-251215`）**：默认视频生成执行引擎（当前 API 可用）
 - **GPT-5.3-codex**：流程编排/策略引擎
 - **产品核心**：时间线 + 控制层（不是单次 prompt 抽奖）
 
@@ -72,7 +72,7 @@
   - 为每个 shot 选择生成模式与约束
 
 - Seedance Executor
-  - 按段调用 Seedance 2.0
+  - 按段调用 Seedance API（默认 Seedance 1.5 Pro）
   - 管理参考素材映射（@图片1/@视频1/@音频1）
 
 - Assembler（ffmpeg）
@@ -145,7 +145,7 @@
 
 ---
 
-## 7) Seedance 2.0 接入约束
+## 7) Seedance API 接入约束（默认 Seedance 1.5 Pro）
 
 编排器强校验：
 

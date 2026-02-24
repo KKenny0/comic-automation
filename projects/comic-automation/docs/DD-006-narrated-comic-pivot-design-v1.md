@@ -149,7 +149,28 @@
 
 ---
 
-## 8) 实施里程碑
+
+## 8) Seedance 模型策略（2026-02）
+
+由于 Seedance 2.0 暂无 API 能力，当前开发默认采用 **Seedance 1.5 Pro**。
+
+### 8.1 默认模型
+- `model_id`: `doubao-seedance-1-5-pro-251215`
+- 默认能力：Text-to-video、Image-to-video（首帧/首尾帧）、Audio 支持、Draft 模式
+
+### 8.2 模式选择建议
+- **草稿探索阶段**：开启 `draft_mode=true`（低成本快速出预览）
+- **终版导出阶段**：关闭 draft，使用 1.5 Pro HD 重生成
+
+### 8.3 兼容模型（兜底）
+- `doubao-seedance-1-0-pro-250428`：T2V + I2V（首帧/首尾帧）
+- `doubao-seedance-1-0-pro-fast-250528`：T2V + I2V（仅首帧）
+- `doubao-seedance-1-0-lite-t2v-250219`：仅 T2V
+- `doubao-seedance-1-0-lite-i2v-250219`：I2V（含参考图 1-4）
+
+---
+
+## 9) 实施里程碑
 
 ### M1（3-5天）
 - 打通 `script -> tts -> srt -> timeline`
@@ -169,7 +190,7 @@
 
 ---
 
-## 9) 本分支交付范围（当前）
+## 10) 本分支交付范围（当前）
 
 本次先完成“方案阶段”交付，不直接改执行代码：
 
@@ -179,7 +200,7 @@
 
 ---
 
-## 10) 下一步执行清单
+## 11) 下一步执行清单
 
 1. 定义 `timeline.v2` schema 草案（兼容 v1）
 2. 增加 `step-1.5-audio` 工作流规范

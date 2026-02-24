@@ -225,6 +225,17 @@
           "type": "object",
           "required": ["duration_sec", "aspect_ratio", "timeline_prompt_segments"],
           "properties": {
+            "model_id": {
+              "type": "string",
+              "enum": [
+                "doubao-seedance-1-5-pro-251215",
+                "doubao-seedance-1-0-pro-250428",
+                "doubao-seedance-1-0-pro-fast-250528",
+                "doubao-seedance-1-0-lite-t2v-250219",
+                "doubao-seedance-1-0-lite-i2v-250219"
+              ]
+            },
+            "draft_mode": { "type": "boolean" },
             "duration_sec": { "type": "number", "minimum": 4, "maximum": 15 },
             "aspect_ratio": { "type": "string", "enum": ["16:9", "9:16", "1:1"] },
             "resolution_hint": { "type": "string" },

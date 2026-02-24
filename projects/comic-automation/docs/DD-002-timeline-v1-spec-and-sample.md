@@ -146,6 +146,8 @@
 ## 5. Seedance 执行映射（v0.1）
 
 `seedance_plan` 推荐字段：
+- `model_id`（默认 `doubao-seedance-1-5-pro-251215`）
+- `draft_mode`（仅 Seedance 1.5 Pro 支持；用于快速草稿预览）
 - `duration_sec`（4-15）
 - `aspect_ratio`
 - `resolution_hint`
@@ -164,6 +166,7 @@
 - `duration_sec = end_sec - start_sec`
 - shot 不允许时间重叠
 - `seedance_plan.duration_sec` 必须落在 4-15
+- 若 `draft_mode=true`，建议仅用于低成本预览，终版使用 HD 重渲
 - 总时长应接近 `project.target_duration_sec`（可设容差 ±1.0s）
 
 ---

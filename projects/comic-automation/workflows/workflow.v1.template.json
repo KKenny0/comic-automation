@@ -89,6 +89,9 @@
     },
     "generate": {
       "mock": true,
+      "engine": "seedance-api",
+      "model_id": "doubao-seedance-1-5-pro-251215",
+      "draft_mode": true,
       "max_parallel": 2
     },
     "assemble": {

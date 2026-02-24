@@ -103,6 +103,11 @@ def run_generate(project_root: Path, output_base: Path, workflow: Dict[str, Any]
     try:
         shot_paths: List[Path] = []
         logs = []
+        generate_cfg = workflow.get("config", {}).get("generate", {})
+        model_id = generate_cfg.get("model_id", "doubao-seedance-1-5-pro-251215")
+        engine = generate_cfg.get("engine", "seedance-api")
+        draft_mode = bool(generate_cfg.get("draft_mode", True))
+
         for shot in timeline["shots"]:
             shot_id = shot["shot_id"]
             shot_out = output_base / "shots" / f"{shot_id}.mp4"
@@ -115,6 +120,9 @@ def run_generate(project_root: Path, output_base: Path, workflow: Dict[str, Any]
                 {
                     "shot_id": shot_id,
                     "status": "completed",
+                    "engine": engine,
+                    "model_id": shot.get("seedance_plan", {}).get("model_id", model_id),
+                    "draft_mode": shot.get("seedance_plan", {}).get("draft_mode", draft_mode),
                     "control_mode": shot["control_mode"],
                     "duration_sec": shot["duration_sec"],
                     "attempt": 1,

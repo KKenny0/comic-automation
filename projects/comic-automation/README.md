@@ -5,7 +5,7 @@ End-to-end automation pipeline for turning a story idea into a finished comic-st
 ## Core Components
 
 - **GPT-5.3-codex**: Orchestrator for scriptwriting, storyboarding, timeline planning, and control strategy decisions
-- **Seedance 2.0**: Video segment generation engine
+- **Seedance 1.5 Pro (`doubao-seedance-1-5-pro-251215`)**: Default video generation engine (API-available)
 - **OpenClaw**: Workflow orchestration, task execution, and automation integration
 
 ## Documentation
